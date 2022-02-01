@@ -124,6 +124,27 @@ static int singly_add_by_index(node_t* head, int idx, int val)
     return 0;
 }
 
+static void singly_reverse_list(node_t** head)
+{
+    if (*head == NULL || (*head)->next == NULL)
+        return;
+
+    node_t* prev = *head;
+    node_t* curr = (*head)->next;
+    *head = (*head)->next;
+    prev->next = NULL;
+
+    while (*head != NULL)
+    {
+        *head = (*head)->next;
+        curr->next = prev;
+
+        prev = curr;
+        curr = *head;
+    }
+    *head = prev;
+}
+
 int main(void)
 {
     /*
@@ -220,6 +241,13 @@ int main(void)
     rval = singly_add_by_index(head, 3, 30);
     if (rval < 0)
         return FAILURE;
+    singly_print_elements(head);
+
+    /*
+    * Reverse elements of LL
+    * 10->20->30->40->50->NULL => 50->40->30->20->10->NULL
+    */
+    singly_reverse_list(&head);
     singly_print_elements(head);
 
     return SUCCESS;
